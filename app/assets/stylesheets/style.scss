@@ -1,0 +1,153 @@
+@import "_foundation_settings";
+
+.layout__maincontent{
+    margin-top:75px;
+    font-size: 1.4em;
+}
+
+.maincontent__purpose{
+  @include grid-column(12);
+  @include breakpoint(medium) {
+    @include grid-column(6);
+  }
+  @include breakpoint(large) {
+    @include grid-column(4);
+    @include grid-column-offset(1);
+  }
+}
+
+.maincontent__contactus{
+  @include grid-column(12);
+  margin-top: 2.8em;
+  @include breakpoint(medium) {
+    margin-top: 0;
+    @include grid-column(6);
+  }
+}
+
+.contact__text{
+  clear:both;
+  @include breakpoint(medium) {
+    @include grid-column(12);
+  }
+  @include breakpoint(large) {
+    @include grid-column(8);
+  }
+  @include breakpoint(xlarge) {
+    @include grid-column(6);
+  }
+}
+
+.layout__footer{
+    @include grid-row();
+    clear:both;
+    background: $primary-color;
+
+    font-size: 1em;
+    color: white;
+    max-width: none;
+
+    @include breakpoint(large) {
+      font-size: 1.8em;
+    }
+}
+
+.footer__contact{
+  clear:both;
+  display: block;
+  padding-top: 15px;
+  padding-left:0.5%;
+  @include grid-column-offset(1);
+}
+.footer__punchline{
+  font-size: 1.4em;
+}
+.footer__punchline.swiss{
+  margin-top: 25px;
+  text-align: right;
+  padding-right: 50px;
+  padding-bottom: 10px;
+}
+
+.footer__punchline.brazil{
+  background: $secondary-color;
+  color: white;
+  padding: 15px 25px 10px 0;
+  text-align: right;
+}
+
+.contactus__owner{
+  clear:both;
+  @include grid-row();
+}
+
+.contactus__owner.large-only{
+  @include show-for(large);
+}
+
+.contactus__owner.small-only{
+  @include hide-for(large);
+  img{
+    display:none;
+  }
+  padding-top: 25px;
+  clear:both;
+}
+
+.owner__university{
+  float:left;
+  padding-left:15px;
+  img{
+      max-height: 135px;
+  }
+}
+.owner__description{
+  padding-left:15px;
+  margin-left: 0;
+  float: left !important;
+  @include grid-column(12);
+  @include breakpoint(large) {
+    @include grid-column(10);
+  }
+}
+
+.owner_fullname{
+  padding-top: 0px;
+  line-height: 0.7em;
+  color: black;
+}
+
+.owner_fullname:hover{
+  color: black;
+}
+
+.owner__curriculum{
+  line-height: 1em;
+  padding-top: 8px;
+  p{
+    margin-bottom: 0;
+  }
+}
+
+.email-adress,
+.email-adress:hover{
+  color:white;
+}
+
+.clickable{
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.clickable:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+p.important{
+    margin-bottom: 2.8em;
+}
+
+.huge-text{
+    font-size: 3.4em;
+}

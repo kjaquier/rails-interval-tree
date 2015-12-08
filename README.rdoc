@@ -1,0 +1,7 @@
+# 24 hours challenge
+
+Do a Facebook crawler to centralise debate and allow user to vote from
+our plateform on arguments that they support.
+
+Offer kind off clustering to allow to group facebook arguments by users
+support.
