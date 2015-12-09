@@ -1,0 +1,7 @@
+  <%= link_to intervals_tree_path(id: node.id), method: :delete, class: ["tree__delete", "button", "alert", "small"] do %>
+    <strong>X</strong>
+     Remove <%= if node.leaf?; 'leaf'
+        elsif node.root?; 'root'
+        else 'node'
+        end %>
+  <% end %>

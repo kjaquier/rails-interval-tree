@@ -1,0 +1,29 @@
+<tr class="tree__row">
+<% (collection).each do |node| %>
+<td colspan="<%= (node.right_tree - node.left_tree + 2 * level - 1) %>"
+    class="tree__cell <%= if node.leaf?; 'leaf'
+                          elsif node.root?; 'root'
+                          else 'node'
+                          end %>">
+  <div class="tree__left">
+    <%= node.left_tree %>
+  </div>
+  <div class="tree__right">
+    <%= node.right_tree %>
+  </div>
+
+  <%= render partial: "intervals/tree/index/tree_delete",
+             locals: {node: node} %>
+
+  <div class="tree__label">
+    <%= node.label %>
+  </div>
+
+
+  <%= render partial: "intervals/tree/index/tree_new_child",
+             locals: { node: if node.root?; node.as_root
+                             else; node.as_node
+                             end}%>
+</td>
+<% end %>
+</tr>
