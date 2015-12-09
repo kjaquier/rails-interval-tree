@@ -1,12 +1,9 @@
 
 Rails.application.routes.draw do
   # Landing page
-  root 'debate/debate#index'
+  root 'intervals/tree#index'
 
-  namespace :debate do
-      resources :user
-      resources :debate
-      resources :argument
-      resources :argument_position
+  namespace :intervals do
+      resources :tree
   end
 end

@@ -15,6 +15,7 @@ describe Node do
     expect(node.errors[:left_tree]).to(
       include("Can't be equal to right_tree"))
   end
+
   it "is invalid to try to update left_tree" do
     node = create(:node, left_tree: 1, right_tree: 2)
     node.left_tree = 0
@@ -22,6 +23,7 @@ describe Node do
     expect(node.errors[:left_tree]).to(
       include("can not be updated"))
   end
+
   it "is valid with a left_tree < right_tree" do
     expect(build(:node, left_tree: 1, right_tree: 2).valid?)
   end
@@ -108,7 +110,21 @@ describe Node do
   end
 
   describe "As Leaf" do
-    it "update the Root tree indices on creation"
+    it "update the Root tree indices on creation" do
+      root = create(:root_with_nodes, nodes_count: 1)
+      node = root.reload.childs.first
+      leaf = node.save_child(label: "leaf")
+      root.reload and node.reload and leaf.reload
+
+      expect(leaf.leaf?)
+      expect(root.left_tree).to eq(1)
+      expect(node.left_tree).to eq(2)
+      expect(leaf.left_tree).to eq(3)
+      expect(leaf.right_tree).to eq(4)
+      expect(node.right_tree).to eq(5)
+      expect(root.right_tree).to eq(6)
+    end
+
     it "update the Root tree indices on deletion"
 
     it "update the Node tree indices on creation"

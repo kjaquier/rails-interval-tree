@@ -4,7 +4,8 @@ Basic example of intervals trees in rails.
 
 ## Intervals trees ?
 Intervals trees are just a representation for n-ary trees. The advantages
-of interval trees, are that you don't have any recursive calls during selection of the tree. The downside is that inserting and removing data is painfull and cost a lot.
+of interval trees, are that you don't have any recursive calls during selection of the tree, everything is flat !
+The downside is that inserting and removing data is painfull and expensive.
 
 The implementation came from these lectures :
 
@@ -20,12 +21,15 @@ This will be changed as the example grow.
 
 ## Help Us !
 Please feel free to help us, by adding feature to this data-structure.
-The goal is to provide a model easy to understand, and good-tested to allow an easier integration. If you feel good to help us a bit, here the roadmap:
+The goal is to provide a model easy to understand, and good-tested to allow an easier integration. If you feel good to help us a bit, here the roadmap :
 
 - Validate that there is no overlapping on insertion
-- Add some helper, to count leaves, nodes, etc.
+- Add some helpers
+    - Count leaves
+    - Count sisters
 - On building child, choose if we want to do it right-side or left-side
-
+    - Create sorted tree, to insert right/left relatively to a key.
+- Cut/paste a subtree to another place in the tree in some 3 udpates
 
 ## FAQ
 ### Why not a gem ?

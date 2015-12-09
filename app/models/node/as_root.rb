@@ -25,11 +25,13 @@ class Node::AsRoot < ActiveType::Record[Node]
   def build_child **args
     build_child_indices root_id: self.id, **args
   end
+
   def save_child **args
     child = build_child(args)
     child.save
     child
   end
+
   def save_child! **args
     child = build_child(args)
     child.save!

@@ -4,14 +4,21 @@ class Node::AsNode < ActiveType::Record[Node]
 
   before_create :make_space_in_tree
 
-  # To iterate over node's childs.
-  scope :childs, -> { where('left_tree > :left_tree
-                            AND right_tree < :right_tree
-                            AND root_id = :root_id',
-                            { left_tree: self.left_tree,
-                              right_tree: self.right_tree,
-                              root_id: self.root_id }) }
+  ##
+  # Select all sisters of the current node.
+  def sisters
+    parent = parent()
+    Node::AsNode.where('tree_level = :tree_level
+                        AND left_tree > :parent_left_tree
+                        AND right_tree < :parent_right_tree
+                        AND root_id = :root_id',
+                        { tree_level: self.tree_level,
+                          parent_left_tree: parent.left_tree,
+                          parent_right_tree: parent.right_tree,
+                          root_id: self.root_id })
+  end
 
+  ##
   # Get a parent at the given level.
   # By default, give the direct parent.
   # Return nil if not found.
@@ -21,10 +28,12 @@ class Node::AsNode < ActiveType::Record[Node]
     end
     Node.where('tree_level = :tree_level
                 AND left_tree < :left_tree
-                AND right_tree > :right_tree',
+                AND right_tree > :right_tree
+                AND root_id = :root_id',
                 { tree_level: tree_level,
                   left_tree: self.left_tree,
-                  right_tree: self.right_tree }).first
+                  right_tree: self.right_tree,
+                  root_id: self.root_id }).first
   end
 
   ##
@@ -39,11 +48,13 @@ class Node::AsNode < ActiveType::Record[Node]
       parent.as_node.build_child args
     end
   end
+
   def save_sister **args
     child = build_sister(args)
     child.save
     child
   end
+
   def save_sister! **args
     child = build_sister(args)
     child.save!
@@ -59,11 +70,13 @@ class Node::AsNode < ActiveType::Record[Node]
   def build_child **args
     build_child_indices root_id: self.root_id, **args
   end
+
   def save_child **args
     child = build_child(args)
     child.save
     child
   end
+
   def save_child! **args
     child = build_child(args)
     child.save!
@@ -79,21 +92,21 @@ class Node::AsNode < ActiveType::Record[Node]
 private
 
   ##
-  # Update all tree to let some place to the new node.
+  # Update all tree to let some place for the new node.
   # Manage an insertion right side.
   def make_space_in_tree
     # Get the parent that we want to insert
     right_update = Node.where('root_id = :root_id
-                               AND right_tree >= :right_tree ',
+                               AND right_tree >= :left_tree ',
                               { root_id: root_id,
-                                right_tree: left_tree })
+                                left_tree: left_tree })
     right_update.update_all 'right_tree = right_tree + 2'
 
     left_update = Node.where('
       root_id = :root_id
-      AND left_tree >= :right_tree ',
+      AND left_tree >= :left_tree ',
       { root_id: root_id,
-        right_tree: left_tree })
+        left_tree: left_tree })
     left_update.update_all 'left_tree = left_tree + 2'
   end
 end

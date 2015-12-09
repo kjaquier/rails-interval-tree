@@ -66,6 +66,16 @@ class Node < ActiveRecord::Base
                  tree_level: self.tree_level })
   end
 
+  ##
+  # Return the node and all the subtree.
+  def tree
+    Node.where('left_tree >= :left_tree
+               AND right_tree <= :right_tree
+               AND root_id = :root_id',
+               { left_tree: self.left_tree,
+                 right_tree: self.right_tree,
+                 root_id: self.id })
+  end
 
 protected
   ##
@@ -102,7 +112,8 @@ private
   # and reorganise the tree.
   def destroy_subtree
     # Delete the subtree if exist
-    childs.destroy unless leaf?
+    childs.destroy_all() unless leaf?
+
     # Update tree to fill the space created by the deletion
     # even we don't have a subtree.
     right_part = Node.where('root_id = :root_id

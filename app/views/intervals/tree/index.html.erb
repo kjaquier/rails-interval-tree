@@ -1,1 +1,80 @@
-Hello World
+<div class="callout large primary">
+    <div class="row column text-center">
+    <% unless @tree.id? %>
+        <h1>Create a new tree</h1>
+        <%= form_for(@tree, url: intervals_tree_index_path(), method: :post) do |form| %>
+
+          <%= form.label :label, "Give the root a name !" %>
+          <%= form.text_field :label, placeholder: "Root label", autofocus: true %>
+          <input type="hidden" name="as_root" value="1" />
+          <button type="submit" class="success button">
+            Save
+          </button>
+        <% end %>
+    <% end %>
+    </div>
+</div>
+
+<% if @tree.id? %>
+<div class="row">
+  <div class="tree__layout">
+    <table class="tree__table">
+      <tbody>
+        <% (@tree.tree
+              .maximum(:tree_level) + 1).times do |level| %>
+          <tr class="tree__row">
+            <% (@tree.tree.order(left_tree: :asc)
+                  .where(tree_level: level)).each do |node| %>
+            <td colspan="<%= (node.right_tree - node.left_tree + 2 * level - 1) %>"
+                class="tree__cell <%= if node.leaf?; 'leaf'
+                                      elsif node.root?; 'root'
+                                      else 'node'
+                                      end %>">
+              <div class="tree__left">
+                <%= node.left_tree %>
+              </div>
+              <div class="tree__right">
+                <%= node.right_tree %>
+              </div>
+
+              <%= link_to intervals_tree_path(id: node.id), method: :delete, class: ["tree__delete", "button", "alert", "small"] do %>
+                <strong>X</strong>
+                 Remove <%= if node.leaf?; 'leaf'
+                    elsif node.root?; 'root'
+                    else 'node'
+                    end %>
+              <% end %>
+
+              <div class="tree__label">
+                <%= node.label %>
+              </div>
+
+              <%
+                node_typed = if node.root?; node.as_root
+                             else; node.as_node
+                             end
+              %>
+              <%= form_for node_typed.build_child, url: intervals_tree_index_path(), method: :post  do |form| %>
+                <%= form.hidden_field :left_tree %>
+                <%= form.hidden_field :right_tree %>
+                <%= form.hidden_field :tree_level %>
+                <%= form.hidden_field :root_id %>
+                <div class="input-group">
+                  <%= form.text_field :label, placeholder: "Child label", autofocus: false, class: "input-group-field" %>
+                  <div class="input-group-button">
+                    <button type="submit" class="button">
+                      Add
+                    </button>
+                  </div>
+                </div>
+              <% end %>
+            </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% end %>
