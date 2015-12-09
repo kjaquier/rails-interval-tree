@@ -62,7 +62,7 @@ class Node < ActiveRecord::Base
                AND tree_level > :tree_level',
                { left_tree: self.left_tree,
                  right_tree: self.right_tree,
-                 root_id: self.id,
+                 root_id: self.root_id,
                  tree_level: self.tree_level })
   end
 
@@ -96,6 +96,7 @@ protected
   end
 
 private
+
   def numerical_order_of_indices
     return if left_tree.nil? or right_tree.nil?
     if left_tree > right_tree
@@ -112,7 +113,7 @@ private
   # and reorganise the tree.
   def destroy_subtree
     # Delete the subtree if exist
-    childs.destroy_all() unless leaf?
+    childs.delete_all()
 
     # Update tree to fill the space created by the deletion
     # even we don't have a subtree.
@@ -124,6 +125,7 @@ private
                             AND left_tree > :left_tree',
                            { root_id: self.root_id,
                              left_tree: self.left_tree })
+
     offset = self.right_tree - self.left_tree + 1
     right_part.update_all(['right_tree = right_tree - :offset',
                            { offset: offset } ])

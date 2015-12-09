@@ -101,6 +101,16 @@ describe Node do
       expect(sister.parent.as_root).to eq(root)
     end
 
+    it "delete the childs on deletion" do
+      root = create(:root_with_nodes, nodes_count: 1)
+      root.childs.first.save_child label: "child 1"
+      expect(root.reload.childs.first.childs.count).to eq(1)
+      root.reload
+      expect do
+        root.childs.first.reload.destroy
+      end.to change{Node.count}.from(3).to(1)
+    end
+
     it "can search by label on node scope only" do
       root = create(:root_with_nodes, nodes_count: 1)
       root.update label: "hello"
@@ -117,6 +127,7 @@ describe Node do
       root.reload and node.reload and leaf.reload
 
       expect(leaf.leaf?)
+      expect(node.childs.first).to eq(leaf)
       expect(root.left_tree).to eq(1)
       expect(node.left_tree).to eq(2)
       expect(leaf.left_tree).to eq(3)
