@@ -1,6 +1,13 @@
 <tr class="tree__row">
+<% cell_id = 0 %>
+
 <% collection.each do |node| %>
-  <td colspan="<%= (node.right_tree - node.left_tree + 2 * level - 1) %>"
+  <% if node.left_tree - cell_id > 1 %>
+    <td colspan="<%= node.left_tree - cell_id - 1 %>">
+    </td>
+  <% end %>
+
+  <td colspan="<%= (node.right_tree - node.left_tree + 1) %>"
       class="tree__cell <%= if node.leaf?; 'leaf'
                             elsif node.root?; 'root'
                             else 'node'
@@ -24,5 +31,10 @@
                                else; node.as_node
                                end}%>
   </td>
+  <% cell_id = node.right_tree %>
 <% end %>
+  <% if max_right_tree - cell_id > 0  %>
+  <td colspan="<%=max_right_tree - cell_id %>">
+  </td>
+  <% end %>
 </tr>

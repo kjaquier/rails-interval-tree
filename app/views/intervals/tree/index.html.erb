@@ -25,7 +25,8 @@
           <%= render partial: "intervals/tree/index/tree_level",
                      locals:{ collection: @tree.tree.order(left_tree: :asc)
                                     .where(tree_level: level),
-                              level: level } %>
+                              level: level,
+                              max_right_tree: @tree.right_tree } %>
         <% end %>
       </tbody>
     </table>
