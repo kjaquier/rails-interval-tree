@@ -19,14 +19,14 @@
       <%= node.right_tree %>
     </div>
 
-    <%= render partial: "intervals/tree/index/tree_delete",
+    <%= render partial: "intervals/tree/show/tree_delete",
                locals: {node: node} %>
 
     <div class="tree__label">
       <%= node.label %>
     </div>
 
-    <%= render partial: "intervals/tree/index/tree_new_child",
+    <%= render partial: "intervals/tree/show/tree_new_child",
                locals: { node: if node.root?; node.as_root
                                else; node.as_node
                                end}%>

@@ -1,27 +1,36 @@
 class Intervals::TreeController < ApplicationController
 
   def index
-    @tree = tree_scope.last
-    build_tree unless @tree
+    build_tree and load_trees
+  end
+
+  def show
+    load_tree
   end
 
   def destroy
-    load_tree
-    @tree.destroy
-    redirect_to root_path
+    load_node
+    @node.destroy
+    if @node.root?
+      redirect_to root_path, success: "Tree deleted"
+    else
+      redirect_to intervals_tree_path(id: @node.root_id), success: "Node deleted"
+    end
   end
 
   def create
-    build_tree
-    saved = if params[:as_root]
-      @tree.as_root.save
+    if params[:as_root]
+      unless build_tree and save_tree
+        load_trees and render :index
+      end
     else
-      @tree.as_node.save
-    end
-    if saved
-      redirect_to root_path
+      unless build_node and save_node
+        # FIXME create a second controller,
+        # to sepate routes as_root and as_node.
+      end
     end
   end
+
 private
 
   def load_trees
@@ -29,33 +38,30 @@ private
   end
 
   def load_tree
-    @tree ||= node_scope.find(params.require(:id))
-    cast_activetype
-  end
-
-  def cast_activetype
-    @tree = if @tree.root?
-      @tree.as_root
-    else
-      @tree.as_node
-    end
+    @tree ||= tree_scope.find(params.require(:id))
   end
 
   def build_tree
-    @tree ||= node_scope.build
+    @tree ||= tree_scope.build
     @tree.attributes = tree_params
-    cast_activetype
   end
 
   def save_tree
-    if @tree.save
-      redirect_to @tree
-    end
+    @tree.save and redirect_to intervals_tree_path(@tree.id)
   end
 
   def tree_params
     tree_params = params[:node]
-    tree_params ? tree_params.permit(:label,
+    tree_params ? tree_params.permit(:label) : {}
+  end
+
+  def tree_scope
+    Node::AsRoot.all
+  end
+
+  def node_params
+    node_params = params[:node]
+    node_params ? node_params.permit(:label,
                                      :left_tree,
                                      :right_tree,
                                      :tree_level,
@@ -66,7 +72,16 @@ private
     Node.all
   end
 
-  def tree_scope
-    Node::AsRoot.all
+  def load_node
+    @node ||= node_scope.find(params.require(:id))
+  end
+
+  def build_node
+    @node ||= node_scope.build.as_node
+    @node.attributes = node_params
+  end
+
+  def save_node
+    @node.save and redirect_to intervals_tree_path(@node.root_id)
   end
 end

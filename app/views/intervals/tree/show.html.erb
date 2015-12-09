@@ -1,0 +1,23 @@
+<div class="row">
+  <%= link_to root_path(), class: ["button", "large", "hollow", "secondary"] do %>
+    < Back
+  <% end %>
+
+  <div class="tree__layout">
+    <p class="lead text-right">
+      Add and remove node to your tree.
+    </p>
+    <table class="tree__table">
+      <tbody>
+        <% (@tree.tree
+              .maximum(:tree_level) + 1).times do |level| %>
+          <%= render partial: "intervals/tree/show/tree_level",
+                     locals:{ collection: @tree.tree.order(left_tree: :asc)
+                                    .where(tree_level: level),
+                              level: level,
+                              max_right_tree: @tree.right_tree } %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
