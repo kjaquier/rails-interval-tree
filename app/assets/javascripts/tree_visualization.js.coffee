@@ -41,7 +41,7 @@ $(() ->
 
 
     # Prepare the dom with D3JS canvas
-    width = $('.tree__vizualization:first').width()
+    width = $('.tree__table:first').width()
     height = 600
 
     cluster = d3.layout.cluster().size([width - 100, height-100]);

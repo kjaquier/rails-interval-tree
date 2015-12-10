@@ -36,6 +36,7 @@ production:
   url: <%= ENV['POSTGRE_URL'] %>
   database: <%= ENV['POSTGRE_DATABASE'] %>
   username: <%= ENV['POSTGRE_USERNAME'] %>
+  port: <%= ENV['POSTGRE_PORT'] %>
   password: <%= ENV['POSTGRE_PASSWORD'] %>
   <% else %>
   database: rails_interval_tree
