@@ -10,6 +10,7 @@ An interval tree use two indexes for each node, the left indice, and right one. 
 ### Examples
 
 ![Schema for interval representation example](./doc/schema-explaination.jpg)
+
 The advantages of interval trees, are that you don't have any recursive calls during selection of the tree, all the structure is flat !
 
 The downside is that inserting and removing data is very expensive, as you need – in worst case – to update all the indices of the tree.
