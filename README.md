@@ -5,15 +5,15 @@ Live Demo there : [shielded-taiga-4796.herokuapp.com](https://shielded-taiga-479
 
 ## Intervals trees ?
 Intervals trees are only another representation for n-ary trees.
-An interval tree use two indexes for each node, the left indice, and right one. These two indices represent an interval that will change in order to accept children.
+An interval tree use two indexes for each node, the left index, and right one. These two indexes represent an interval that will change in order to accept children.
 
 ### Examples
 
-![Schema for interval representation example](./doc/schema-explaination.jpg)
+![Schema for interval representation example.](./doc/schema-explaination.jpg)
 
 The advantages of interval trees, are that you don't have any recursive calls during selection of the tree, all the structure is flat !
 
-The downside is that inserting and removing data is very expensive, as you need – in worst case – to update all the indices of the tree.
+The downside is that inserting and removing data is very expensive, as you need in worst case to update all the indexes of the tree.
 
 Here some example of using the tree, in plain SQL :
 
@@ -58,8 +58,8 @@ To understand better this application implementation, you can read :
 
 
 ### Cutting fat models with `AsNode` and `AsRoot`
-We cut the responsability of our pretty fat model `Node` in some different usecases (kind of "views" of our model).
-This way, we can handle separatly our `Node` model view as a root node or view
+We cut the responsibility of our pretty fat model `Node` in some different use-cases (kind of "views" of our model).
+This way, we can handle separately our `Node` model view as a root node or view
 as node (child of a root).
 
 For example, we can select all the direct node of a given root this way :
@@ -84,7 +84,7 @@ To learn more how to use `ActiveType`, please refer to the [Active Type Gem's do
 
 ## Help Us !
 Please feel free to help us, by adding feature to this data-structure.
-The goal is to provide a model easy to understand, and good-tested to allow an easier integration. If you feel good to help us a bit, here the roadmap :
+The goal is to provide a model easy to understand, and good-tested to allow an easier integration. If you feel good to help us a bit, here the road map :
 
 - Validate that there is no overlapping on insertion
 - Add some helpers
@@ -92,12 +92,12 @@ The goal is to provide a model easy to understand, and good-tested to allow an e
     - Count sisters
 - On building child, choose if we want to do it right-side or left-side
     - Create sorted tree, to insert right/left relatively to a key.
-- Cut/paste a subtree to another place in the tree in just 3 udpates
+- Cut/paste a subtree to another place in the tree in just 3 updates
 
 ## FAQ
 ### Why not a gem ?
 There is no good reason to not make a gem. We just want to test it more,
-and add some others fonctionalities before turning this a gem.
+and add some others functionalities before turning this a gem.
 As it's always quiet a big job to maintain a gem, we make a first try in showing how this data-structure can be implemented.
 
 ### Can I use this structure everywhere ?
@@ -105,11 +105,11 @@ No, this representation is very efficient for data you want barely insert and se
 
 ### How to run it
 1. Clone the repository
-2. Be sure to have a local postgre database installed
+2. Be sure to have a local Postgre database installed
 3. Check the database.yml for your connection details
-4. Run ´bundle install´ to install all the gems we are using.
-5. Run ´rspec´ to see if our tests passes
-6. Run ´rails s´ and enjoy the demo on your localhost.
+4. Run `bundle install` to install all the gems we are using.
+5. Run `rspec` to see if our tests passes
+6. Run `rails s` and enjoy the demo on your localhost.
 
 ... Or go to our [live demo on heroku](https://shielded-taiga-4796.herokuapp.com/)
 
