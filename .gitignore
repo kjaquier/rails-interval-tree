@@ -1,5 +1,6 @@
 ra-*.html
 .rspec
+.byebug_history
 /log
 /tmp
 /db/*.sqlite3
