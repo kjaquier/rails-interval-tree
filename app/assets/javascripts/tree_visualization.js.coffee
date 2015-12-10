@@ -93,14 +93,14 @@ $(() ->
 
         # Add Indices
         (node.append("text")
-             .attr("dx", -40)
+             .attr("dx", -30)
              .attr("dy", 4).text((d) ->
                 "" + d.left
              )
              .attr("class", "left_tree node__indice"))
 
         (node.append("text")
-             .attr("dx", 30)
+             .attr("dx", 20)
              .attr("dy", 4).text((d) ->
                 "" + d.right
              )
