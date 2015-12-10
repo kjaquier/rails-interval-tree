@@ -1,6 +1,6 @@
 <% resource = node.build_child %>
 <%= form_for resource,
-             url: intervals_tree_index_path(),
+             url: intervals_node_index_path(),
              method: :post  do |form| %>
   <div class="form <%= callout_class resource, '' %>">
     <%= form.hidden_field :left_tree %>

@@ -1,9 +1,10 @@
 
 Rails.application.routes.draw do
   # Landing page
-  root 'intervals/tree#index'
+  root 'intervals/root#index'
 
   namespace :intervals do
-      resources :tree
+      resources :root, only: [:index, :show, :create, :destroy]
+      resources :node, only: [:create, :destroy]
   end
 end

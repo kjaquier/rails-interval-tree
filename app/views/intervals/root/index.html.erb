@@ -1,11 +1,11 @@
 <div class="callout large <%= callout_class @tree %>">
     <div class="row column text-center">
       <h1>Create a new tree</h1>
-      <%= form_for(@tree, url: intervals_tree_index_path(), method: :post) do |form| %>
+      <%= form_for(@tree, url: intervals_root_index_path(), method: :post) do |form| %>
 
         <%= form.label :label, "Give your root a name !" %>
         <%= form.text_field :label, placeholder: "Root name", autofocus: true %>
-        <input type="hidden" name="as_root" value="1" />
+
         <%= display_label_error @tree %>
         <button type="submit" class="success button expanded">
           Save
@@ -17,7 +17,7 @@
   <div class="small-12 large-9 large-3-offset columns">
     <h2>Your trees</h2>
     <% @trees.each do |tree| %>
-      <%= link_to intervals_tree_path(id: tree.id),
+      <%= link_to intervals_root_path(id: tree.id),
                   class: ["button", "large", "hollow"] do %>
         <%= tree.label %>
       <% end %>

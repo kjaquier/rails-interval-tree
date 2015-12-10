@@ -11,7 +11,7 @@
       <tbody>
         <% (@tree.tree
               .maximum(:tree_level) + 1).times do |level| %>
-          <%= render partial: "intervals/tree/show/tree_level",
+          <%= render partial: "intervals/root/show/tree_level",
                      locals:{ collection: @tree.tree.order(left_tree: :asc)
                                     .where(tree_level: level),
                               level: level,
