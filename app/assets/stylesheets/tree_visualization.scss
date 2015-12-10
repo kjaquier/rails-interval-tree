@@ -1,0 +1,28 @@
+.tree__node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+.tree__node.leaf circle{
+    fill: orange;
+
+}
+.node__label{
+    font-size: 15px;
+    font-weight: 900;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    fill: black;
+    -webkit-filter: drop-shadow( -0px -0px 3px #FFF );
+            filter: drop-shadow( -0px -0px 3px #FFF );
+}
+.node__indice{
+    font-size: 23px;
+    font-family: Courier;
+    font-weight: 900;
+}
+
+.link {
+    fill: none;
+    stroke: black;
+}

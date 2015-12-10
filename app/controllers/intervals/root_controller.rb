@@ -7,8 +7,17 @@ class Intervals::RootController < ApplicationController
 
   ##
   # Show the wanted tree.
+  #
+  # Json serialisation will give the complete tree,
+  # ordered by evel and left_tree indice
   def show
     load_tree
+     respond_to do |format|
+        format.html
+        format.json  { render json: {
+          root: @tree,
+          children: @tree.children.order(tree_level: :asc, left_tree: :asc) } }
+      end
   end
 
   ##

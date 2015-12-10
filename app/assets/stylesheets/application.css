@@ -2,5 +2,6 @@
 *= require normalize
 *= require fonts
 *= require foundation_and_overrides
+*= require tree_visualization
 *= require style
 */

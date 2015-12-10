@@ -1,4 +1,4 @@
-# A generic n-ary tree, You can add childs, remove a node and it's child,
+# A generic n-ary tree, You can add children, remove a node and it's child,
 # and get some properties such as level, type(node, leaf).
 class Node < ActiveRecord::Base
   validates :left_tree,
@@ -37,7 +37,7 @@ class Node < ActiveRecord::Base
   end
 
   ##
-  # If the current node have not any childs
+  # If the current node have not any children
   def leaf?
     return (right_tree - left_tree == 1)
   end
@@ -49,13 +49,13 @@ class Node < ActiveRecord::Base
   end
 
   ##
-  # If the current node is not the root, and have some childs.
+  # If the current node is not the root, and have some children.
   def node?
     return(not root?)
   end
 
   # To iterate over root subtree.
-  def childs
+  def children
     Node::AsNode.where('left_tree > :left_tree
                AND right_tree < :right_tree
                AND root_id = :root_id
@@ -113,7 +113,7 @@ private
   # and reorganise the tree.
   def destroy_subtree
     # Delete the subtree if exist
-    childs.delete_all()
+    children.delete_all()
 
     # Update tree to fill the space created by the deletion
     # even we don't have a subtree.

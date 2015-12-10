@@ -1,4 +1,5 @@
 class Intervals::NodeController < ApplicationController
+
   ##
   # Destroy the node and redirect to the tree visualisation
   def destroy
