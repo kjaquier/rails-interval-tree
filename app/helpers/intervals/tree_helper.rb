@@ -8,7 +8,7 @@ module Intervals::TreeHelper
   end
 
   def display_label_error resource
-    render partial: "intervals/tree/errors",
+    render partial: "intervals/root/errors",
            locals: { errors: resource.errors} if resource.errors.any?
   end
 end
