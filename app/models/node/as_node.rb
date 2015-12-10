@@ -7,14 +7,11 @@ class Node::AsNode < ActiveType::Record[Node]
   ##
   # Select all sisters of the current node.
   def sisters
-    parent = parent()
     Node::AsNode.where('tree_level = :tree_level
-                        AND left_tree > :parent_left_tree
-                        AND right_tree < :parent_right_tree
+                        AND id != :id
                         AND root_id = :root_id',
                         { tree_level: self.tree_level,
-                          parent_left_tree: parent.left_tree,
-                          parent_right_tree: parent.right_tree,
+                          id: self.id,
                           root_id: self.root_id })
   end
 
