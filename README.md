@@ -5,17 +5,17 @@ Live Demo there : [shielded-taiga-4796.herokuapp.com](https://shielded-taiga-479
 
 ## Intervals trees ?
 Intervals trees are only another representation for n-ary trees.
-An interval tree use two indexes for each node, the left index, and right one. These two indexes represent an interval that will change in order to accept children.
+An interval tree uses two indexes for each node: the left one and the right one. These two indexes represent an interval that will change in order to accept children.
 
 ### Examples
 
 ![Schema for interval representation example.](./doc/schema-explaination.jpg)
 
-The advantages of interval trees, are that you don't have any recursive calls during selection of the tree, all the structure is flat !
+The advantage of interval trees is that you don't have any recursive calls when querying the tree, because the whole structure is flat! 
 
-The downside is that inserting and removing data is very expensive, as you need in worst case to update all the indexes of the tree.
+The downside is that inserting and removing data is very expensive, as you may need to update all the indexes of the tree in the worst case.
 
-Here some example of using the tree, in plain SQL :
+Here are some examples of using the tree in plain SQL:
 
 __Count number of children of the example tree__
 ```sql
@@ -48,68 +48,68 @@ __Select all the leaves of the tree__
 
 
 ## Application using this tree
-We did a example that use this tree. The goal of the app is just to represent
+We made an example that uses this tree. The goal of the app is just to represent
 the tree you are building.
 
-To understand better this application implementation, you can read :
+To better understand this application's implementation, you can read :
 
 - [Gestion d'arbres par représentation intervallaire - French](http://sqlpro.developpez.com/cours/arborescence/)
 - [Growing Rails](https://leanpub.com/growing-rails)
 
 
 ### Cutting fat models with `AsNode` and `AsRoot`
-We cut the responsibility of our pretty fat model `Node` in some different use-cases (kind of "views" of our model).
-This way, we can handle separately our `Node` model view as a root node or view
-as node (child of a root).
+We separate the responsibility of our pretty fat model `Node` in different use-cases (kinds of "views" of our model).
+This way we can handle our `Node` model view either as a root node or as
+as node (a child of a root).
 
-For example, we can select all the direct node of a given root this way :
+For example, we can select all the direct nodes of a given root like this:
 ```rails
 Node::AsNode.where(root_id: 1, level: 2)
 # note that this query will give back only Node::AsNode instances,
 # no need casting !
 ```
 
-If we want to select all the available root node, we use :
+If we want to select all the available root nodes, we use:
 ```rails
 Node::AsRoot.all
 ```
 
-These two models `Node::AsNode` and `Node::AsRoot` use the same table in Database, but with different scope and callbacks.
+These two models `Node::AsNode` and `Node::AsRoot` use the same table in database, but with different scope and callbacks.
 
-To be able to do almost no casting in our example, we create two controller `Interval::RootController` and `Interval::NodeController`.
-This way we can painless manage these two representations of our model `Node` without any casting.
+In our example, we create two controllers: `Interval::RootController` and `Interval::NodeController`.
+This way we can painlessly manage these two representations of our model `Node` without any type casting.
 
-To learn more how to use `ActiveType`, please refer to the [Active Type Gem's docs](https://github.com/makandra/active_type)
+To learn more on how to use `ActiveType`, please refer to the [Active Type Gem's docs](https://github.com/makandra/active_type)
 
 
 ## Help Us !
-Please feel free to help us, by adding feature to this data-structure.
-The goal is to provide a model easy to understand, and good-tested to allow an easier integration. If you feel good to help us a bit, here the road map :
+Please feel free to help us by adding features to this data-structure.
+The goal is to provide a model that is easy to understand and well tested, to allow for easier integration. If you feel like  helping us a bit, here is the road map :
 
-- Validate that there is no overlapping on insertion
+- Validate there is no overlapping on insertion
 - Add some helpers
     - Count leaves
     - Count sisters
-- On building child, choose if we want to do it right-side or left-side
-    - Create sorted tree, to insert right/left relatively to a key.
+- On building a child, choose whether we want it to be right-side or left-side
+    - Create a sorted tree, to insert right/left relative to a key
 - Cut/paste a subtree to another place in the tree in just 3 updates
 
 ## FAQ
 ### Why not a gem ?
-There is no good reason to not make a gem. We just want to test it more,
-and add some others functionalities before turning this a gem.
-As it's always quiet a big job to maintain a gem, we make a first try in showing how this data-structure can be implemented.
+There is no good reason to not make a gem at the moment. We just want to test it more,
+and add additional functionalities before turning this a gem.
+As it's always quite a big job to maintain a gem, we first try to show how this data structure can be implemented.
 
 ### Can I use this structure everywhere ?
-No, this representation is very efficient for data you want barely insert and select very often.
+No, this representation is only efficient when doing few inserts and lots of selects.
 
 ### How to run it
 1. Clone the repository
 2. Be sure to have a local Postgre database installed
-3. Check the database.yml for your connection details
-4. Run `bundle install` to install all the gems we are using.
+3. Check database.yml for your connection details
+4. Run `bundle install` to install all the required gems
 5. Run `rspec` to see if our tests passes
-6. Run `rails s` and enjoy the demo on your localhost.
+6. Run `rails s` and enjoy the demo on your localhost
 
 ... Or go to our [live demo on heroku](https://shielded-taiga-4796.herokuapp.com/)
 
